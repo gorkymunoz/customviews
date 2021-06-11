@@ -9,7 +9,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import androidx.core.content.withStyledAttributes
+import com.gorkymunoz.customviews.R
 import com.gorkymunoz.customviews.enum.DotState
 import kotlin.math.min
 
@@ -28,6 +31,10 @@ class DotView @JvmOverloads constructor(
 
     private var radius = 0.5f
     private var maxElements = 0
+    private var emptyColor = 0
+    private var filledColor: Int = 0
+    private var errorColor = 0
+
     private val evaluator = ArgbEvaluator()
     private var dotState = DotState.EMPTY
     private var strokeWidthView = 1.5f
@@ -35,6 +42,20 @@ class DotView @JvmOverloads constructor(
             strokePaint.strokeWidth = value
             field = value
         }
+
+    init {
+        context.withStyledAttributes(attrs, R.styleable.DotView) {
+            emptyColor = getColor(R.styleable.DotView_emptyColor, 0)
+            filledColor = getColor(R.styleable.DotView_filledColor, 0)
+            errorColor = getColor(R.styleable.DotView_errorColor, 0)
+        }
+    }
+
+    fun setColors(empty: Int, filled: Int, error: Int) {
+        emptyColor = empty
+        filledColor = filled
+        errorColor = error
+    }
 
     fun setMaxElements(totalElements: Int) {
         maxElements = totalElements
@@ -45,9 +66,9 @@ class DotView @JvmOverloads constructor(
 
         val prevColor = paint.color
         val color = when (dotState) {
-            DotState.EMPTY -> Color.TRANSPARENT
-            DotState.FILLED -> Color.BLUE
-            DotState.ERROR -> Color.RED
+            DotState.EMPTY -> emptyColor
+            DotState.FILLED -> filledColor
+            DotState.ERROR -> errorColor
         }
 
         val animator: ObjectAnimator =
