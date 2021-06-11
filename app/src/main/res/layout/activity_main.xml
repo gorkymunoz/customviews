@@ -15,93 +15,27 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="64dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_hello">
-
-        <com.gorkymunoz.customviews.widget.DotView
-            android:id="@+id/dotview1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_dark"
-            app:layout_constraintEnd_toStartOf="@id/dotview2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.gorkymunoz.customviews.widget.DotView
-            android:id="@+id/dotview2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toStartOf="@id/dotview3"
-            app:layout_constraintStart_toEndOf="@id/dotview1"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.gorkymunoz.customviews.widget.DotView
-            android:id="@+id/dotview3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toStartOf="@id/dotview4"
-            app:layout_constraintStart_toEndOf="@id/dotview2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.gorkymunoz.customviews.widget.DotView
-            android:id="@+id/dotview4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_dark"
-            app:layout_constraintEnd_toStartOf="@id/dotview5"
-            app:layout_constraintStart_toEndOf="@id/dotview3"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.gorkymunoz.customviews.widget.DotView
-            android:id="@+id/dotview5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_dark"
-            app:layout_constraintEnd_toStartOf="@id/dotview6"
-            app:layout_constraintStart_toEndOf="@id/dotview4"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.gorkymunoz.customviews.widget.DotView
-            android:id="@+id/dotview6"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dotview5"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </LinearLayout>
-
     <com.gorkymunoz.customviews.widget.DotLayout
         android:id="@+id/dotlayout"
         android:layout_width="match_parent"
-        android:paddingHorizontal="64dp"
         android:layout_height="50dp"
+        android:paddingHorizontal="64dp"
+        app:emptyColorDots="@android:color/transparent"
+        app:errorColorDots="@android:color/holo_red_light"
+        app:filledColorDots="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout" />
+        app:layout_constraintTop_toBottomOf="@id/tv_hello"
+        app:totalDots="6" />
 
     <com.gorkymunoz.customviews.widget.DotView
         android:id="@+id/dotview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/teal_200"
+        app:emptyColor="@android:color/transparent"
+        app:errorColor="@android:color/holo_red_light"
+        app:filledColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dotlayout" />
