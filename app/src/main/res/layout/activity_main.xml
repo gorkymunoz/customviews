@@ -7,12 +7,113 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tv_hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="64dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hello">
+
+        <com.gorkymunoz.customviews.widget.DotView
+            android:id="@+id/dotview1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_dark"
+            app:layout_constraintEnd_toStartOf="@id/dotview2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.gorkymunoz.customviews.widget.DotView
+            android:id="@+id/dotview2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toStartOf="@id/dotview3"
+            app:layout_constraintStart_toEndOf="@id/dotview1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.gorkymunoz.customviews.widget.DotView
+            android:id="@+id/dotview3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toStartOf="@id/dotview4"
+            app:layout_constraintStart_toEndOf="@id/dotview2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.gorkymunoz.customviews.widget.DotView
+            android:id="@+id/dotview4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_dark"
+            app:layout_constraintEnd_toStartOf="@id/dotview5"
+            app:layout_constraintStart_toEndOf="@id/dotview3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.gorkymunoz.customviews.widget.DotView
+            android:id="@+id/dotview5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_dark"
+            app:layout_constraintEnd_toStartOf="@id/dotview6"
+            app:layout_constraintStart_toEndOf="@id/dotview4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.gorkymunoz.customviews.widget.DotView
+            android:id="@+id/dotview6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dotview5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <com.gorkymunoz.customviews.widget.DotLayout
+        android:id="@+id/dotlayout"
+        android:layout_width="match_parent"
+        android:paddingHorizontal="64dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout" />
+
+    <com.gorkymunoz.customviews.widget.DotView
+        android:id="@+id/dotview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/teal_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dotlayout" />
+
+    <com.gorkymunoz.customviews.widget.DotEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/purple_200"
+        android:cursorVisible="false"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dotview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
