@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DotLayout">
+        <attr name="totalDots" format="integer" />
+        <attr name="emptyColorDots" format="color" />
+        <attr name="filledColorDots" format="color" />
+        <attr name="errorColorDots" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="DotView">
+        <attr name="emptyColor" format="color" />
+        <attr name="filledColor" format="color" />
+        <attr name="errorColor" format="color" />
+    </declare-styleable>
+</resources>
