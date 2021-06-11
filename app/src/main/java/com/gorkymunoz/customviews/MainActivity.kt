@@ -1,11 +1,13 @@
 package com.gorkymunoz.customviews
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.gorkymunoz.customviews.enum.DotState
+import com.gorkymunoz.customviews.interfaces.PinFilled
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PinFilled {
 
 
     var state: DotState = DotState.EMPTY
@@ -17,7 +19,15 @@ class MainActivity : AppCompatActivity() {
         tv_hello.setOnClickListener {
             state = state.next()
             dotview.setDotState(state)
+            dotlayout.pinText = "1"
         }
+
+        dotlayout.setListener(this)
+    }
+
+    override fun pinCompleted(pin: String) {
+        Toast.makeText(this, "Pin is $pin", Toast.LENGTH_LONG).show()
+        dotlayout.showError()
     }
 
 
