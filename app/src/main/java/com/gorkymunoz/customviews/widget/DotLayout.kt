@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.withStyledAttributes
+import com.gorkymunoz.customviews.R
 import com.gorkymunoz.customviews.enum.DotState
 import com.gorkymunoz.customviews.interfaces.PinFilled
 
@@ -22,19 +24,10 @@ class DotLayout @JvmOverloads constructor(
 
 
     private var listener: PinFilled? = null
-
-    fun setListener(listener: PinFilled) {
-        this.listener = listener
-    }
-
-    fun showError() {
-        for (i in 0 until childCount) {
-            val dotView: DotView = getChildAt(i) as DotView
-            dotView.setDotState(DotState.ERROR)
-        }
-    }
-
-    val dotCount = 6
+    private var dotCount = 0
+    private var emptyColor = 0
+    private var filledColor = 0
+    private var errorColor = 0
     var pinText: String = ""
         set(value) {
             if (pinText.length < dotCount) {
@@ -51,9 +44,29 @@ class DotLayout @JvmOverloads constructor(
             }
         }
 
+    fun setListener(listener: PinFilled) {
+        this.listener = listener
+    }
+
+    fun showError() {
+        for (i in 0 until childCount) {
+            val dotView: DotView = getChildAt(i) as DotView
+            dotView.setDotState(DotState.ERROR)
+        }
+    }
+
     init {
         orientation = HORIZONTAL
-        for (i in 1..dotCount) {
+
+
+        context.withStyledAttributes(attrs, R.styleable.DotLayout) {
+            dotCount = getInt(R.styleable.DotLayout_totalDots, 0)
+            emptyColor = getColor(R.styleable.DotLayout_emptyColorDots, 0)
+            filledColor = getColor(R.styleable.DotLayout_filledColorDots, 0)
+            errorColor = getColor(R.styleable.DotLayout_errorColorDots, 0)
+        }
+
+        for (i in 0 until dotCount) {
             val id = View.generateViewId()
             val dotView = DotView(context)
             dotView.layoutParams = LayoutParams(
@@ -64,6 +77,9 @@ class DotLayout @JvmOverloads constructor(
             dotView.id = id
             dotView.setMaxElements(dotCount - 1)
             addView(dotView)
+            dotView.setColors(
+                emptyColor, filledColor, errorColor
+            )
         }
     }
 
