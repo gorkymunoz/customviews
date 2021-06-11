@@ -1,12 +1,14 @@
 package com.gorkymunoz.customviews.widget
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import com.gorkymunoz.customviews.enum.DotState
 import kotlin.math.min
@@ -21,10 +23,12 @@ class DotView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr), ValueAnimator.AnimatorUpdateListener {
 
 
     private var radius = 0.5f
+    private var maxElements = 0
+    private val evaluator = ArgbEvaluator()
     private var dotState = DotState.EMPTY
     private var strokeWidthView = 1.5f
         set(value) {
@@ -32,9 +36,25 @@ class DotView @JvmOverloads constructor(
             field = value
         }
 
+    fun setMaxElements(totalElements: Int) {
+        maxElements = totalElements
+    }
+
     fun setDotState(state: DotState) {
         dotState = state
-        invalidate()
+
+        val prevColor = paint.color
+        val color = when (dotState) {
+            DotState.EMPTY -> Color.TRANSPARENT
+            DotState.FILLED -> Color.BLUE
+            DotState.ERROR -> Color.RED
+        }
+
+        val animator: ObjectAnimator =
+            ObjectAnimator.ofObject(paint, "color", evaluator, prevColor, color)
+        animator.duration = 500
+        animator.addUpdateListener(this)
+        animator.start()
     }
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -52,30 +72,24 @@ class DotView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        radius = (min(width, height) / 4).toFloat()
+        val divisor: Double = if (maxElements == 0) (2.0 * 1.4) else (maxElements - 1).toDouble()
+        radius = (min(width, height) / divisor).toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        Log.d("STATE", dotState.name)
-        paint.color = when (dotState) {
-            DotState.EMPTY -> Color.YELLOW
-            DotState.FILLED -> Color.BLUE
-            DotState.ERROR -> Color.RED
-        }
 
         canvas.drawCircle(
             (width / 2).toFloat(),
             (height / 2).toFloat(),
             radius,
-            paint
+            if (dotState == DotState.EMPTY) strokePaint else paint
         )
 
-/*
-        if (dotState == DotState.EMPTY) {
-            canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), radius, strokePaint)
-        }
-*/
+    }
+
+    override fun onAnimationUpdate(animation: ValueAnimator?) {
+        invalidate()
     }
 
 }
