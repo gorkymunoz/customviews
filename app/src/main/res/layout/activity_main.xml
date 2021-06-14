@@ -7,12 +7,26 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tv_hello"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_add"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center_horizontal"
+        android:text="Add"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_remove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_remove"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Remove"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_add"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.gorkymunoz.customviews.widget.DotLayout
@@ -25,7 +39,7 @@
         app:filledColorDots="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_hello"
+        app:layout_constraintTop_toBottomOf="@id/tv_add"
         app:totalDots="6" />
 
     <com.gorkymunoz.customviews.widget.DotView

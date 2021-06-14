@@ -16,10 +16,14 @@ class MainActivity : AppCompatActivity(), PinFilled {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tv_hello.setOnClickListener {
+        tv_add.setOnClickListener {
             state = state.next()
             dotview.setDotState(state)
-            dotlayout.pinText = "1"
+            dotlayout.addPinEntry("1")
+        }
+
+        tv_remove.setOnClickListener {
+            dotlayout.deletePinEntry()
         }
 
         dotlayout.setListener(this)
