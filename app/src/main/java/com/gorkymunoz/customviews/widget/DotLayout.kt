@@ -28,24 +28,37 @@ class DotLayout @JvmOverloads constructor(
     private var emptyColor = 0
     private var filledColor = 0
     private var errorColor = 0
-    var pinText: String = ""
-        set(value) {
-            if (pinText.length < dotCount) {
-                field += value
-                val dotView: DotView = getChildAt(pinText.length - 1) as DotView
-                dotView.setDotState(DotState.FILLED)
-            }
-            if (pinText.length == dotCount) {
-                if (listener != null) {
-                    listener!!.pinCompleted(pinText)
-                } else {
-                    throw ExceptionInInitializerError("Initialize PinFilled listener")
-                }
-            }
-        }
+    private var pinText: String = ""
 
     fun setListener(listener: PinFilled) {
         this.listener = listener
+    }
+
+    fun addPinEntry(entryValue: String) {
+        if (listener == null) {
+            throw ExceptionInInitializerError("Call setListener first")
+        }
+        if (pinText.length < dotCount) {
+            pinText += entryValue
+            changeDotStatus(DotState.FILLED)
+        }
+        if (pinText.length == dotCount) {
+            listener!!.pinCompleted(pinText)
+        }
+    }
+
+    fun deletePinEntry() {
+        if (pinText.isNotEmpty()) {
+            val length = pinText.length
+            pinText = pinText.substring(0, length - 1)
+            changeDotStatus(DotState.EMPTY)
+        }
+    }
+
+    private fun changeDotStatus(status: DotState) {
+        val currentIndex = if (pinText.isEmpty()) 0 else pinText.length
+        val dotView: DotView = getChildAt(currentIndex) as DotView
+        dotView.setDotState(status)
     }
 
     fun showError() {
