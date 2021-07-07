@@ -33,7 +33,7 @@
         android:id="@+id/dotlayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingHorizontal="64dp"
+        android:layout_marginHorizontal="38dp"
         app:emptyColorDots="@android:color/transparent"
         app:errorColorDots="@android:color/holo_red_light"
         app:filledColorDots="@color/purple_500"
@@ -42,26 +42,21 @@
         app:layout_constraintTop_toBottomOf="@id/tv_add"
         app:totalDots="6" />
 
-    <com.gorkymunoz.customviews.widget.DotView
-        android:id="@+id/dotview"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/teal_200"
-        app:emptyColor="@android:color/transparent"
-        app:errorColor="@android:color/holo_red_light"
-        app:filledColor="@color/purple_500"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:padding="2dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dotlayout" />
+        app:layout_constraintTop_toBottomOf="@id/dotlayout"
+        app:spanCount="2"
+        tools:listitem="@layout/view_media_item" />
 
-    <com.gorkymunoz.customviews.widget.DotEditTextView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/purple_200"
-        android:cursorVisible="false"
-        android:gravity="center_horizontal"
-        android:paddingHorizontal="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dotview" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
