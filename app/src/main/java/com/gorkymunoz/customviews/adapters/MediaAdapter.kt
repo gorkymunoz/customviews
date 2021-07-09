@@ -2,10 +2,10 @@ package com.gorkymunoz.customviews.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gorkymunoz.customviews.R
+import com.gorkymunoz.customviews.databinding.ViewMediaItemBinding
+import com.gorkymunoz.customviews.enum.MediaType
 import com.gorkymunoz.customviews.extensions.inflate
 import com.gorkymunoz.customviews.extensions.loadUrl
 import com.gorkymunoz.customviews.extensions.toast
@@ -23,8 +23,13 @@ class MediaAdapter(private val items: List<MediaItem>) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
+        // First way -- initialize the binding here
+        //val binding = ViewMediaItemBinding.inflate(LayoutInflater.from(parent.context))
+        //return MediaViewHolder(binding.root)
+        // Second way -- initialize binding in viewHolder
         val view = parent.inflate(R.layout.view_media_item)
         return MediaViewHolder(view)
+
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
@@ -37,15 +42,20 @@ class MediaAdapter(private val items: List<MediaItem>) :
 
     class MediaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val title: TextView = view.findViewById(R.id.mediaTitle)
-        private val thumb: ImageView = view.findViewById(R.id.mediaThumb)
+        private val binding = ViewMediaItemBinding.bind(view)
 
         fun bind(mediaItem: MediaItem) {
-            title.text = mediaItem.title
-            thumb.loadUrl(mediaItem.url)
 
-            itemView.setOnClickListener {
-                toast(mediaItem.title)
+            with(binding) {
+                mediaTitle.text = mediaItem.title
+                mediaThumb.loadUrl(mediaItem.url)
+                mediaVideoIndicator.visibility = when (mediaItem.type) {
+                    MediaType.PHOTO -> View.GONE
+                    MediaType.VIDEO -> View.VISIBLE
+                }
+                root.setOnClickListener {
+                    toast(mediaItem.title)
+                }
             }
         }
     }
