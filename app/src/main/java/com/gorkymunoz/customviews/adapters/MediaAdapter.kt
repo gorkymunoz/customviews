@@ -10,6 +10,7 @@ import com.gorkymunoz.customviews.extensions.inflate
 import com.gorkymunoz.customviews.extensions.loadUrl
 import com.gorkymunoz.customviews.interfaces.Logger
 import com.gorkymunoz.customviews.model.MediaItem
+import kotlin.properties.Delegates
 
 
 /**
@@ -18,11 +19,14 @@ import com.gorkymunoz.customviews.model.MediaItem
  * gorkymunoz@hotmail.com
  */
 class MediaAdapter(
-    private val items: List<MediaItem>,
+    items: List<MediaItem> = emptyList(),
     private val clickListener: (MediaItem) -> Unit
 ) :
     RecyclerView.Adapter<MediaAdapter.MediaViewHolder>(), Logger {
 
+    var items: List<MediaItem> by Delegates.observable(items) { _, _, _ ->
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         // First way -- initialize the binding here
