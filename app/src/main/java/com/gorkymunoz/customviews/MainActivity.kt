@@ -5,7 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.gorkymunoz.customviews.adapters.MediaAdapter
-import com.gorkymunoz.customviews.data.getItems
+import com.gorkymunoz.customviews.data.MediaProvider
 import com.gorkymunoz.customviews.databinding.ActivityMainBinding
 import com.gorkymunoz.customviews.enum.MediaType
 import com.gorkymunoz.customviews.extensions.toast
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), Logger {
                 adapter = mediaAdapter
             }
 
-            mediaAdapter.items = getItems()
+            mediaAdapter.items = MediaProvider.getItems()
 
             dotlayout.setListener {
                 toast("Pin is $it")
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), Logger {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        mediaAdapter.items = getItems().let { items ->
+        mediaAdapter.items = MediaProvider.getItems().let { items ->
             when (item.itemId) {
                 R.id.filter_videos -> items.filter { it.type == MediaType.VIDEO }
                 R.id.filter_photos -> items.filter { it.type == MediaType.PHOTO }

@@ -9,11 +9,14 @@ import com.gorkymunoz.customviews.model.MediaItem
  *
  * gorkymunoz@hotmail.com
  */
-fun getItems(): List<MediaItem> = (1..15).map {
-    val type = if (it % 3 == 0) MediaType.VIDEO else MediaType.PHOTO
-    MediaItem(
-        "Title $it",
-        "https://placekitten.com/200/300?image=$it",
-        type
-    )
+
+object MediaProvider {
+    fun getItems(): List<MediaItem> = (1..15).map {
+        val type = if (it % 3 == 0) MediaType.VIDEO else MediaType.PHOTO
+        MediaItem(
+            "Title $it",
+            "https://placekitten.com/200/300?image=$it",
+            type
+        )
+    }
 }
