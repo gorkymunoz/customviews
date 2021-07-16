@@ -10,15 +10,17 @@ import com.gorkymunoz.customviews.data.MediaProvider
 import com.gorkymunoz.customviews.databinding.ActivityMainBinding
 import com.gorkymunoz.customviews.enum.MediaType
 import com.gorkymunoz.customviews.extensions.toast
-import com.gorkymunoz.customviews.interfaces.Logger
 import com.gorkymunoz.customviews.model.MediaItem
 import com.gorkymunoz.customviews.utils.SignatureUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity(), Logger {
+class MainActivity : AppCompatActivity(), CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    private lateinit var job: Job
 
     private lateinit var binding: ActivityMainBinding
     private val mediaAdapter: MediaAdapter by lazy {
@@ -29,6 +31,9 @@ class MainActivity : AppCompatActivity(), Logger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        job = SupervisorJob()
+
         binding = ActivityMainBinding.inflate(layoutInflater).apply {
             tvAdd.setOnClickListener {
                 dotlayout.addPinEntry("1")
@@ -66,8 +71,13 @@ class MainActivity : AppCompatActivity(), Logger {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
+    }
+
     private fun loadItems(filter: Int = R.id.filter_all) {
-        GlobalScope.launch(Dispatchers.Main) {
+        launch {
             binding.rv.visibility = View.GONE
             binding.progress.visibility = View.VISIBLE
             mediaAdapter.items = withContext(Dispatchers.IO) {
