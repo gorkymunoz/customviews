@@ -7,10 +7,9 @@ import com.gorkymunoz.customviews.data.getItems
 import com.gorkymunoz.customviews.databinding.ActivityMainBinding
 import com.gorkymunoz.customviews.extensions.toast
 import com.gorkymunoz.customviews.interfaces.Logger
-import com.gorkymunoz.customviews.interfaces.PinFilled
 import com.gorkymunoz.customviews.utils.SignatureUtils
 
-class MainActivity : AppCompatActivity(), PinFilled, Logger {
+class MainActivity : AppCompatActivity(), Logger {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -26,10 +25,15 @@ class MainActivity : AppCompatActivity(), PinFilled, Logger {
             }
 
             rv.apply {
-                adapter = MediaAdapter(getItems())
+                adapter = MediaAdapter(getItems()) {
+                    toast(it.title)
+                }
             }
 
-            dotlayout.setListener(this@MainActivity)
+            dotlayout.setListener {
+                toast("Pin is $it")
+                binding.dotlayout.showError()
+            }
 
             setContentView(root)
         }
@@ -37,11 +41,5 @@ class MainActivity : AppCompatActivity(), PinFilled, Logger {
 
         SignatureUtils.getKeyHash(this, "SHA-256")
     }
-
-    override fun pinCompleted(pin: String) {
-        toast("Pin is $pin")
-        binding.dotlayout.showError()
-    }
-
 
 }
