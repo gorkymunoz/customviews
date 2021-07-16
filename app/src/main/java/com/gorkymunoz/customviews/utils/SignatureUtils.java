@@ -49,18 +49,20 @@ public class SignatureUtils {
                     toRet.append(hex);
                 }
 
+/*
+                // Convert to hex
                 StringBuilder sb = new StringBuilder();
                 for (byte b : digest) {
                     sb.append(Integer.toHexString(0xff & b));
-                }
+                }*/
 
-                Log.e("Key1", hashStrategy + "-->>>>>>>>>>>>" + new String(Base64.encode(digest, 0)));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Log.e("Key2", hashStrategy + "-->>>>>>>>>>>>" + java.util.Base64.getEncoder().encodeToString(digest));
+                } else {
+                    Log.e("Key1", hashStrategy + "-->>>>>>>>>>>>" + new String(Base64.encode(digest, 0)));
+
                 }
                 Log.e("KeyHash", hashStrategy + "-->>>>>>>>>>>>" + toRet.toString());
-                Log.e("KeyHex", hashStrategy + "-->>>>>>>>>>>>" + sb.toString());
-                // Notification.registerGCM(this);
             }
         } catch (PackageManager.NameNotFoundException e1) {
             Log.e(TAG, "name not found::", e1);
