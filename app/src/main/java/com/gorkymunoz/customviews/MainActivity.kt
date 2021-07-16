@@ -12,6 +12,11 @@ import com.gorkymunoz.customviews.utils.SignatureUtils
 class MainActivity : AppCompatActivity(), Logger {
 
     private lateinit var binding: ActivityMainBinding
+    private val mediaAdapter: MediaAdapter by lazy {
+        MediaAdapter(getItems()) {
+            toast(it.title)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +30,7 @@ class MainActivity : AppCompatActivity(), Logger {
             }
 
             rv.apply {
-                adapter = MediaAdapter(getItems()) {
-                    toast(it.title)
-                }
+                adapter = mediaAdapter
             }
 
             dotlayout.setListener {
