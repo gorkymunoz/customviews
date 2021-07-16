@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import com.gorkymunoz.customviews.R
 import com.gorkymunoz.customviews.enum.DotState
-import com.gorkymunoz.customviews.interfaces.PinFilled
 
 
 /**
@@ -22,28 +21,29 @@ class DotLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-
-    private var listener: PinFilled? = null
     private var dotCount = 0
     private var emptyColor = 0
     private var filledColor = 0
     private var errorColor = 0
     private var pinText: String = ""
+    private var listener: ((String) -> Unit)? = null
 
-    fun setListener(listener: PinFilled) {
-        this.listener = listener
+    fun setListener(completedListener: (String) -> Unit) {
+        listener = completedListener
     }
 
     fun addPinEntry(entryValue: String) {
+
         if (listener == null) {
             throw ExceptionInInitializerError("Call setListener first")
         }
         if (pinText.length < dotCount) {
             pinText += entryValue
-            changeDotStatus(DotState.FILLED)
+            val currentIndex = pinText.length - 1
+            changeDotStatus(DotState.FILLED, currentIndex)
         }
         if (pinText.length == dotCount) {
-            listener!!.pinCompleted(pinText)
+            listener!!(pinText)
         }
     }
 
@@ -51,13 +51,13 @@ class DotLayout @JvmOverloads constructor(
         if (pinText.isNotEmpty()) {
             val length = pinText.length
             pinText = pinText.substring(0, length - 1)
-            changeDotStatus(DotState.EMPTY)
+            val currentIndex = if (pinText.isEmpty()) 0 else pinText.length
+            changeDotStatus(DotState.EMPTY, currentIndex)
         }
     }
 
-    private fun changeDotStatus(status: DotState) {
-        val currentIndex = if (pinText.isEmpty()) 0 else pinText.length
-        val dotView: DotView = getChildAt(currentIndex) as DotView
+    private fun changeDotStatus(status: DotState, index: Int) {
+        val dotView: DotView = getChildAt(index) as DotView
         dotView.setDotState(status)
     }
 
