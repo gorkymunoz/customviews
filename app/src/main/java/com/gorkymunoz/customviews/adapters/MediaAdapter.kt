@@ -8,7 +8,6 @@ import com.gorkymunoz.customviews.databinding.ViewMediaItemBinding
 import com.gorkymunoz.customviews.enum.MediaType
 import com.gorkymunoz.customviews.extensions.inflate
 import com.gorkymunoz.customviews.extensions.loadUrl
-import com.gorkymunoz.customviews.extensions.toast
 import com.gorkymunoz.customviews.interfaces.Logger
 import com.gorkymunoz.customviews.model.MediaItem
 
@@ -18,7 +17,10 @@ import com.gorkymunoz.customviews.model.MediaItem
  *
  * gorkymunoz@hotmail.com
  */
-class MediaAdapter(private val items: List<MediaItem>) :
+class MediaAdapter(
+    private val items: List<MediaItem>,
+    private val clickListener: (MediaItem) -> Unit
+) :
     RecyclerView.Adapter<MediaAdapter.MediaViewHolder>(), Logger {
 
 
@@ -35,7 +37,7 @@ class MediaAdapter(private val items: List<MediaItem>) :
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         val mediaItem = items[position]
         logD(mediaItem.toString())
-        holder.bind(mediaItem)
+        holder.bind(mediaItem, clickListener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -44,7 +46,7 @@ class MediaAdapter(private val items: List<MediaItem>) :
 
         private val binding = ViewMediaItemBinding.bind(view)
 
-        fun bind(mediaItem: MediaItem) {
+        fun bind(mediaItem: MediaItem, clickListener: (MediaItem) -> Unit) {
 
             with(binding) {
                 mediaTitle.text = mediaItem.title
@@ -54,7 +56,7 @@ class MediaAdapter(private val items: List<MediaItem>) :
                     MediaType.VIDEO -> View.VISIBLE
                 }
                 root.setOnClickListener {
-                    toast(mediaItem.title)
+                    clickListener(mediaItem)
                 }
             }
         }
