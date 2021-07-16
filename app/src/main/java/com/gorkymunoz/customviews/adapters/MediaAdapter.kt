@@ -40,7 +40,6 @@ class MediaAdapter(
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         val mediaItem = items[position]
-        logD(mediaItem.toString())
         holder.bind(mediaItem, clickListener)
     }
 
