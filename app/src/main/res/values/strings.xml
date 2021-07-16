@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Custom Views</string>
     <string name="all_ok">OK</string>
+    <string name="all">All</string>
+    <string name="photos">Photos</string>
+    <string name="videos">Videos</string>
 </resources>
