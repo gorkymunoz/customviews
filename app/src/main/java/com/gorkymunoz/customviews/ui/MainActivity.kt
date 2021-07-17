@@ -11,6 +11,7 @@ import com.gorkymunoz.customviews.adapters.MediaAdapter
 import com.gorkymunoz.customviews.data.MediaProvider
 import com.gorkymunoz.customviews.databinding.ActivityMainBinding
 import com.gorkymunoz.customviews.enum.MediaType
+import com.gorkymunoz.customviews.extensions.startActivity
 import com.gorkymunoz.customviews.extensions.toast
 import com.gorkymunoz.customviews.model.MediaItem
 import com.gorkymunoz.customviews.utils.SignatureUtils
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mediaAdapter: MediaAdapter by lazy {
         MediaAdapter {
-            toast(it.title)
+            startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
         }
     }
 
