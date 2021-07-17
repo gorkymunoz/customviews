@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.gorkymunoz.customviews.R
 import com.gorkymunoz.customviews.adapters.MediaAdapter
+import com.gorkymunoz.customviews.data.FilterMediaItem
 import com.gorkymunoz.customviews.data.MediaProvider
 import com.gorkymunoz.customviews.databinding.ActivityMainBinding
 import com.gorkymunoz.customviews.enum.MediaType
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
         }
 
-        loadItems()
+        loadItems(FilterMediaItem.None)
 
         SignatureUtils.getKeyHash(this, "SHA-256")
     }
@@ -63,11 +64,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        loadItems(item.itemId)
+        val filter = when (item.itemId) {
+            R.id.filter_videos -> FilterMediaItem.ByType(MediaType.VIDEO)
+            R.id.filter_photos -> FilterMediaItem.ByType(MediaType.PHOTO)
+            else -> FilterMediaItem.None
+        }
+        loadItems(filter)
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadItems(filter: Int = R.id.filter_all) {
+    private fun loadItems(filter: FilterMediaItem) {
         lifecycleScope.launch {
             binding.rv.visibility = View.GONE
             binding.progress.visibility = View.VISIBLE
@@ -79,13 +85,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun filteredItems(filter: Int): List<MediaItem> =
+    private fun filteredItems(filter: FilterMediaItem): List<MediaItem> =
         MediaProvider.getItems().let { items ->
             when (filter) {
-                R.id.filter_videos -> items.filter { it.type == MediaType.VIDEO }
-                R.id.filter_photos -> items.filter { it.type == MediaType.PHOTO }
-                R.id.filter_all -> items
-                else -> emptyList()
+                FilterMediaItem.None -> items
+                is FilterMediaItem.ByType -> items.filter { it.type == filter.type }
             }
         }
 
