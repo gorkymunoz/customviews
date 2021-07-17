@@ -1,11 +1,11 @@
 package com.gorkymunoz.customviews.ui
 
-import android.R
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.gorkymunoz.customviews.R
 import com.gorkymunoz.customviews.data.MediaProvider
 import com.gorkymunoz.customviews.databinding.ActivityDetailBinding
 import com.gorkymunoz.customviews.enum.MediaType
@@ -16,14 +16,14 @@ import kotlinx.coroutines.withContext
 
 class DetailActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityDetailBinding
+    private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val itemId = intent.getIntExtra("sd", -1)
+        val itemId = intent.getIntExtra(EXTRA_ID, -1)
         if (itemId != -1) {
             getSelectedItem(itemId)
         }
@@ -45,9 +45,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun handleNotFoundItem() {
-        title = getString(R.string.unknownName)
+        title = getString(android.R.string.unknownName)
         binding.activityDetail.addView(TextView(this@DetailActivity).apply {
-            text = "Item not found"
+            text = getString(R.string.not_found)
             textSize = 24f
         })
     }
