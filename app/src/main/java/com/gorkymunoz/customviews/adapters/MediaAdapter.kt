@@ -18,9 +18,11 @@ import kotlin.properties.Delegates
  *
  * gorkymunoz@hotmail.com
  */
+private typealias Listener = (MediaItem) -> Unit
+
 class MediaAdapter(
     items: List<MediaItem> = emptyList(),
-    private val clickListener: (MediaItem) -> Unit
+    private val clickListener: Listener
 ) :
     RecyclerView.Adapter<MediaAdapter.MediaViewHolder>(), Logger {
 
@@ -49,7 +51,7 @@ class MediaAdapter(
 
         private val binding = ViewMediaItemBinding.bind(view)
 
-        fun bind(mediaItem: MediaItem, clickListener: (MediaItem) -> Unit) {
+        fun bind(mediaItem: MediaItem, clickListener: Listener) {
 
             with(binding) {
                 mediaTitle.text = mediaItem.title
