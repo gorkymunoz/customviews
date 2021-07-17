@@ -8,4 +8,9 @@ import com.gorkymunoz.customviews.enum.MediaType
  *
  * gorkymunoz@hotmail.com
  */
-data class MediaItem(val title: String, val url: String, val type: MediaType)
+data class MediaItem(
+    val id: Int,
+    val title: String,
+    val url: String,
+    val type: MediaType
+)
