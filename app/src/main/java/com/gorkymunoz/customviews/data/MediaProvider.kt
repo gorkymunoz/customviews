@@ -19,6 +19,7 @@ object MediaProvider {
         return (1..15).map {
             val type = if (it % 3 == 0) MediaType.VIDEO else MediaType.PHOTO
             MediaItem(
+                it,
                 "Title $it",
                 "https://placekitten.com/200/300?image=$it",
                 type
